@@ -1,17 +1,12 @@
+// -- api
 import httpRequest from "@api/httpRequest";
 import ENDPOINT from "@api/endPoint";
 
-const handleList = () => {
-	const { ready, data, error } = httpRequest.firstLoad({
+const handleList = async () => {
+	return await httpRequest({
 		method: "get",
 		url: ENDPOINT.CRYPTOCURRENCIES,
 	});
-
-	return {
-		ready,
-		data,
-		error,
-	};
 };
 
 const cryptoCurrenciesModel = {

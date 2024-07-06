@@ -1,13 +1,12 @@
 "use client";
 
 // -- core
-import { useState } from "react";
+import { useEffect } from "react";
 
 // -- states
 import useStateHeader from "@states/header";
 
 // -- widgets
-import HeroBannerWidget from "@widgets/HeroBannerWidget";
 import CalculateWidget from "@widgets/CalculateWidget";
 import SubsribeWidget from "@widgets/SubscribeWidget";
 import CryptocurrenciesWidget from "@widgets/CryptocurrenciesWidget";
@@ -22,7 +21,7 @@ import WhyCrappo from "@organisms/WhyCrappo";
 
 const Home = (props) => {
 	const { ssrData } = props;
-	const { heroBanner, numbers } = ssrData;
+	const { heroBanner, numbers, whyCrappo } = ssrData;
 
 	// heroBanner
 	const { data: heroBannerData, error: heroBannerError } = heroBanner;
@@ -30,9 +29,12 @@ const Home = (props) => {
 	// numbers
 	const { data: numbersData, error: numbersError } = numbers;
 
+	// whyCrappo
+	const { data: whyCrappoData, error: whyCrappoError } = whyCrappo;
+
 	// set active header menu
 	const { setMenu } = useStateHeader();
-	useState(() => {
+	useEffect(() => {
 		setMenu("");
 	}, []);
 
@@ -40,6 +42,16 @@ const Home = (props) => {
 		<>
 			<HeroBanner ready data={heroBannerData.data} error={heroBannerError} />
 			<Numbers ready data={numbersData.data} error={numbersError} />
+			<WhyCrappo ready data={whyCrappoData.data} error={whyCrappoError} />
+			{/* CSR */}
+			<CalculateWidget />
+			<CryptocurrenciesWidget />
+			{/* Event Call */}
+			<InvestSmartWidget />
+			<StatisticsWidget />
+			<ProfitInvestmentWidget />
+
+			<SubsribeWidget />
 		</>
 	);
 };

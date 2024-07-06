@@ -1,7 +1,7 @@
 import httpClient from "@api/httpClient";
 import ENDPOINT from "@api/endPoint";
 
-const handleList = () => {
+const handleData = () => {
 	const { ready, data, error } = httpClient({
 		method: "get",
 		url: ENDPOINT.HEADER,
@@ -15,7 +15,7 @@ const handleList = () => {
 };
 
 const headerModel = {
-	list: handleList,
+	data: handleData,
 };
 
 export default headerModel;

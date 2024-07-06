@@ -1,68 +1,27 @@
-// -- api
-import httpRequest from "@api/httpRequest";
-import ENDPOINT from "@api/endPoint";
+// -- models
+import heroBannerModel from "@models/heroBanner";
+import numbersModel from "@models/numbers";
+import whyCrappoModel from "@models/whyCrappo";
 
 // -- modules
 import Home from "presentation/modules/Home";
 
-// -- SSR getHeroBannerData
-const getHeroBannerData = async () => {
-	const { data, error } = await httpRequest({
-		method: "get",
-		url: ENDPOINT.HERO_BANNER,
-		transformResponse: [
-			(data) => {
-				const respo = JSON.parse(data);
-				const transformData = respo.data.map((val) => ({
-					img: val.image,
-					title: val.title,
-					sale: {
-						title: val.label.badge,
-						desc: val.label.description,
-					},
-					desc: val.description,
-					btn: {
-						to: val.button.to,
-						text: val.button.text,
-					},
-				}));
-
-				return {
-					...respo,
-					data: transformData,
-				};
-			},
-		],
-	});
-
-	return {
-		data,
-		error,
-	};
-};
-
-// -- SSR getNumbersData
-const getNumbersData = async () => {
-	const { data, error } = await httpRequest({
-		method: "get",
-		url: ENDPOINT.NUMBERS,
-	});
-
-	return {
-		data,
-		error,
-	};
+const metadata = {
+	title: "Home | Crappo",
+	description: "Lorem ipsum dolor sit amet.",
+	keyword: "Lorem ipsum dolor sit amet.",
 };
 
 // =====================
 // HomePage
 // =====================
 const HomePage = async () => {
-	const heroBanner = await getHeroBannerData();
-	const numbers = await getNumbersData();
+	const heroBanner = await heroBannerModel.list();
+	const numbers = await numbersModel.list();
+	const whyCrappo = await whyCrappoModel.list();
 
 	const data = {
-		ssrData: { heroBanner, numbers },
+		ssrData: { heroBanner, numbers, whyCrappo },
 	};
 
 	return (
@@ -72,4 +31,5 @@ const HomePage = async () => {
 	);
 };
 
+export { metadata };
 export default HomePage;
